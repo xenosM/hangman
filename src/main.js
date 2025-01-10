@@ -3,8 +3,11 @@ const rightAnswerContainer = document.querySelector("#right-answer-container");
 const wrongAnswerContainer = document.querySelector("#wrong-answer-container");
 const wrongAnswerResult = document.querySelector("#wrong-answer");
 const popup = document.querySelector("#popup");
+const bodyParts = document.querySelectorAll(".bodypart")
+console.log(bodyParts)
 
 let usedLetters = [];
+let mistakeCount =0;
 let wrongAnswers = [];
 //!FUNCTION DECLARATION
 async function main() {
@@ -24,10 +27,15 @@ async function main() {
       } else {
         wrongAnswerContainer.style.visibility = "visible";
         wrongAnswerDisplay(key);
+        displayBodyPart();
+      }
+      if(mistakeCount>=6){
+       gameOver()
       }
     }
   });
 }
+
 async function getWord() {
   const response = await fetch(
     "https://random-word-api.vercel.app/api?words=1"
@@ -54,12 +62,19 @@ function wrongAnswerDisplay(key) {
   wrongAnswers.push(key);
   wrongAnswerResult.innerText = wrongAnswers;
 }
+function displayBodyPart(){
+  bodyParts[mistakeCount].style.display="block"
+  mistakeCount++
+}
 function showPopup() {
   console.log("pop")
   popup.classList.add("show");
   setTimeout(() => {
     popup.classList.remove("show");
   }, 1200);
+}
+function gameOver(){
+  
 }
 //!MAIN CODE
 main();
