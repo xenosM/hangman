@@ -1,26 +1,32 @@
 //!VARIABLE DECLARATION
 const rightAnswerContainer = document.querySelector("#right-answer-container");
-let usedLetters=[]
+const wrongAnswerContainer = document.querySelector("#wrong-answer-container");
+const wrongAnswerResult = document.querySelector("#wrong-answer");
+const popup = document.querySelector("#popup");
+
+let usedLetters = [];
+let wrongAnswers = [];
 //!FUNCTION DECLARATION
 async function main() {
-
   const [word] = await getWord();
-  console.log(word)
+  console.log(word);
   generateBlankDash(word);
   //*Event Listener
-  document.body.addEventListener('keydown',(e)=>{
-    let regex = new RegExp(`[${word}]`)
-    let key = e.key
-    if(usedLetters.includes(key)){
+  document.body.addEventListener("keydown", (e) => {
+    if (e.keyCode >= 65 && e.keyCode <= 90) {
+      let regex = new RegExp(`[${word}]`);
+      let key = e.key.toLowerCase();
 
+      if (usedLetters.includes(key)) {
+        showPopup();
+      } else if (regex.test(key)) {
+        rightAnswerDisplay(key, document.querySelectorAll(".blank-space"));
+      } else {
+        wrongAnswerContainer.style.visibility = "visible";
+        wrongAnswerDisplay(key);
+      }
     }
-    else if(regex.test(key)){
-      rightAnswerDisplay(key,document.querySelectorAll(".blank-space"))
-    }
-    else{
-
-    }
-  })
+  });
 }
 async function getWord() {
   const response = await fetch(
@@ -35,12 +41,25 @@ function generateBlankDash(word) {
     .map((letter) => `<div class="blank-space" data-letter="${letter}"></div>`)
     .join("");
 }
-function rightAnswerDisplay(key,elements){
+function rightAnswerDisplay(key, elements) {
   elements.forEach((element) => {
-    if(element.dataset.letter==key){
-      element.innerText=key
+    if (element.dataset.letter == key) {
+      element.innerText = key;
     }
-  })
+  });
+  usedLetters.push(key);
+}
+function wrongAnswerDisplay(key) {
+  usedLetters.push(key);
+  wrongAnswers.push(key);
+  wrongAnswerResult.innerText = wrongAnswers;
+}
+function showPopup() {
+  console.log("pop")
+  popup.classList.add("show");
+  setTimeout(() => {
+    popup.classList.remove("show");
+  }, 1200);
 }
 //!MAIN CODE
 main();

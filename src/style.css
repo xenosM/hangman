@@ -1,6 +1,7 @@
 :root {
   /**Background*/
   --body-background:rgb(10,60,100);
+  --popup-background:rgba(10,30,50,.75);
   /**font*/
   --default-text-color:rgb(230,230,230);
 }
@@ -11,7 +12,10 @@
   color:var(--default-text-color);
 }
 body {
+  overflow-y: hidden;
+  height:100vh;
   background-color:var(--body-background) ;
+  position: relative;
 }
 
 #header{
@@ -62,10 +66,10 @@ body {
       #wrong-answer-container{
         border:inherit;
         visibility: hidden;
-        
         flex-basis: 30%;
         height:100px;
         text-align: right;
+        font-size: 1.25rem;
 
         #wrong-answer-title{
           font-size: 1.25rem;
@@ -83,4 +87,19 @@ body {
   font-size:2rem;
   text-align: center;
   padding-bottom:2.5rem;
+}
+#popup{
+  position: absolute;
+  bottom: -20%;
+  right: 50%;
+  font-size: 1.25rem;
+  width:fit-content;
+  background-color: var(--popup-background);
+  padding:1rem;
+  border-radius: 5px;
+  transform: translateX(50%);
+  transition: bottom .3s ease-in-out;
+}
+.show{
+  bottom: 0 !important;
 }
