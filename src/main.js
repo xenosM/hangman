@@ -21,7 +21,7 @@ async function main() {
 
   //*Event Listener
   document.body.addEventListener("keydown", (e) => {
-    if (/[a-z]/i.test(e.key) && playState) {
+    if (/[a-z]/i.test(e.key)&& e.key.length==1 && playState) {
       let regex = new RegExp(`[${word}]`);
       let key = e.key.toLowerCase();
 
@@ -66,8 +66,8 @@ function rightAnswerDisplay(key, elements) {
 }
 function wrongAnswerDisplay(key) {
   wrongAnswerContainer.style.visibility = "visible";
-  wrongAnswerResult.innerText = wrongAnswers;
   wrongAnswers.push(key);
+  wrongAnswerResult.innerText = wrongAnswers;
   displayBodyPart();
 }
 function displayBodyPart() {
